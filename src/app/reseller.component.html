@@ -1,0 +1,104 @@
+<loader *ngIf="loaderService.isLoading"></loader>
+
+<div
+  class="w-full h-[5px] fixed top-0 z-50 animate-loader bg-blue-600 dark:bg-[#d38312]"
+  *ngIf="loading"
+></div>
+
+<navbar></navbar>
+
+<ng-container
+  *ngIf="
+    !authService.isAuth || (authService.isAuth && authService.isVerified);
+    else notVerified
+  "
+>
+  <main class="flex justify-center items-center min-h-screen">
+    <router-outlet></router-outlet>
+  </main>
+</ng-container>
+
+<div
+  *ngIf="
+    cartService.cart.length && authService.isAuth && authService.isVerified
+  "
+  class="flex lg:hidden sticky bottom-16 left-[88%] w-[49px] h-[49px] justify-center items-center p-3 bg-blue-600 dark:bg-[#d38312] rounded-[50%]"
+  (click)="basket()"
+>
+  <span
+    class="absolute top-[5.5px] right-[5.5px] w-[22px] h-[22px] rounded-[50%] bg-red-600 flex justify-center items-center text-white"
+    >{{ cartService.cart.length }}</span
+  >
+
+  <bakset classes="w-[25px] h-[25px] fill-black dark:fill-white"></bakset>
+</div>
+
+<div
+  *ngIf="authService.isAuth && authService.isVerified"
+  class="flex sticky bottom-2 lg:bottom-8 left-[88%] lg:left-[90%] justify-center items-center p-3 lg:p-1 bg-blue-600 dark:bg-[#d38312] lg:rounded-[20px] rounded-[50%] w-[49px] h-[49px] lg:w-[150px] cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 mt-5 lg:mt-0"
+  (click)="modalsService.showModal('create')"
+>
+  <span class="flex lg:hidden text-white dark:text-black text-2xl">+</span>
+
+  <span class="hidden lg:flex text-white dark:text-black text-sm"
+    >Добавить товар</span
+  >
+</div>
+
+<modal-create *ngIf="modalsService.create"></modal-create>
+
+<modal-update *ngIf="modalsService.update"></modal-update>
+
+<modal-delete *ngIf="modalsService.delete"></modal-delete>
+
+<re-footer></re-footer>
+
+<ng-template #notVerified>
+  <main class="flex justify-center items-center min-h-screen">
+    <div
+      class="flex justify-center items-center gap-3 p-5 bg-white dark:bg-black shadow-lg rounded-xl flex-col w-[300px] lg:w-[500px]"
+    >
+      <h1 class="text-sm lg:text-xl text-black dark:text-white">
+        Ваш аккаунт не верифицирован
+      </h1>
+
+      <p class="text-black dark:text-white text-center">
+        Перейдите в
+        <a
+          href="https://t.me/ReSellerFuncBot"
+          target="_blank"
+          class="text-blue-400 dark:text-[#ba730f] font-bold transition-all duration-300 ease-in-out hover:text-blue-600 dark:hover:text-[#d38312]"
+          >телеграм-бота</a
+        >, используя
+        <span class="font-bold italic text-black dark:text-white/70"
+          >телеграм-аккаунт</span
+        >, который вы указывали при регистрации, скопируйте код и отправьте его
+        боту
+      </p>
+
+      <span
+        class="flex gap-3 justify-center text-black dark:text-white items-center select-text transition-all duration-300 ease-in-out hover:bg-blue-600 dark:hover:bg-[#d38312] rounded-[20px] p-4 text-xl font-semibold"
+        >{{ authService.user.verification.verificationCode }}
+        <copy
+          (click)="copy()"
+          classes="transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-1"
+          [ngClass]="{
+            'fill-black dark:fill-white': !copied,
+            'fill-green-500': copied
+          }"
+        ></copy
+      ></span>
+
+      <button
+        (click)="authService.checkVerification()"
+        class="border-none text-white dark:text-black outline-none text-base lg:text-lg font-bold rounded-[20px] bg-black dark:bg-white p-4 transition-all duration-300 ease-in-out hover:bg-blue-600 dark:hover:bg-[#d38312]"
+      >
+        Проверить верификацию
+      </button>
+
+      <span *ngIf="authService.error" class="font-bold text-red-600">{{
+        authService.error
+      }}</span>
+    </div>
+  </main>
+</ng-template>

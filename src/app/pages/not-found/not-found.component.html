@@ -1,0 +1,21 @@
+<section
+  class="flex flex-col justify-center items-center bg-white dark:bg-black w-[330px] lg:w-[500px] rounded-xl p-5 shadow-lg gap-5"
+>
+  <h1 class="text-sm lg:text-2xl text-black dark:text-white">
+    404 | Такой страницы не существует
+  </h1>
+
+  <span class="text-sm lg:text-xl text-black dark:text-white"
+    >Путь:
+    <span class="italic font-semibold text-blue-600 dark:text-[#d38312]">{{
+      router.url
+    }}</span></span
+  >
+
+  <button
+    (click)="toMain()"
+    class="p-3 w-full rounded-xl bg-blue-400 dark:bg-[#ba730f] transition-all duration-300 ease-in-out hover:bg-blue-600 dark:hover:bg-[#d38312]"
+  >
+    На главную
+  </button>
+</section>

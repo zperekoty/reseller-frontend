@@ -1,0 +1,106 @@
+<section class="flex justify-center items-center flex-col">
+  <ng-container *ngIf="productsService.products.length > 0; else noProducts">
+    <h1 class="text-2xl text-black dark:text-white">
+      Все товары ({{ productsService.products.length | number : ".0" }})
+    </h1>
+
+    <div
+      class="flex justify-center items-center gap-5 flex-nowrap flex-col lg:flex-row lg:flex-wrap mt-7"
+    >
+      <div
+        *ngFor="let product of productsService.products"
+        class="flex p-2 gap-4 lg:gap-2 w-[250px] lg:w-[350px] flex-col justify-center items-center bg-white dark:bg-black {{
+          !darkModeSerivce.darkMode ? 'shadow-lg' : ''
+        }} rounded-[20px] border-transparent border-2 transition-all duration-300 ease-in-out hover:border-blue-600 dark:hover:border-[#d38312]"
+      >
+        <div class="overflow-hidden rounded-[20px]">
+          <img
+            src="https://robohash.org/{{
+              product.name.replaceAll(' ', '%20')
+            }}?set=set4"
+            alt="{{ product.name }}"
+            draggable="false"
+            width="150"
+            height="150"
+            class="bg-blue-600 dark:bg-[#d38312] transition-[transform] duration-300 ease-in-out hover:scale-110"
+          />
+        </div>
+
+        <span class="text-sm lg:text-base text-black dark:text-white italic">{{
+          product.name
+        }}</span>
+        <div class="flex justify-between items-center w-full">
+          <span class="text-xs lg:text-sm text-black dark:text-white"
+            >Количество:
+            <span class="italic">{{ product.amount | number }}</span></span
+          >
+          <span class="text-xs lg:text-sm text-black dark:text-white"
+            >Цена
+            <span class="italic">{{
+              product.price | currency : "RUB" : "symbol-narrow" : ".0-2"
+            }}</span></span
+          >
+        </div>
+
+        <div
+          class="flex justify-between items-center w-full gap-4 lg:gap-1 flex-col lg:flex-row"
+          *ngIf="authService.isAuth && authService.isVerified"
+        >
+          <button
+            *ngIf="
+              authService.isAuth &&
+              authService.isVerified &&
+              product.owner !== this.authService.user.id
+            "
+            (click)="addToCart(product)"
+            class="text-sm lg:text-sm text-black dark:text-white p-2 bg-green-600 rounded-[20px] transition-all duration-300 ease-in-out hover:bg-blue-600 dark:hover:bg-[#d38312] mx-auto w-full"
+          >
+            В корзину
+          </button>
+
+          <button
+            *ngIf="
+              authService.isAuth &&
+              authService.isVerified &&
+              product.owner === authService.user.id
+            "
+            (click)="
+              updateProduct({
+                name: product.name,
+                description: product.description,
+                price: product.price,
+                amount: product.amount,
+                id: product.id,
+                owner: authService.user.id,
+                interface: 'products'
+              })
+            "
+            class="text-sm lg:text-sm text-black dark:text-white p-2 bg-fuchsia-600 rounded-[20px] transition-all duration-300 ease-in-out hover:bg-blue-600 dark:hover:bg-[#d38312] w-full lg:w-auto"
+          >
+            Редактировать
+          </button>
+
+          <button
+            *ngIf="
+              authService.isAuth &&
+              authService.isVerified &&
+              product.owner === authService.user.id
+            "
+            (click)="deleteProduct(product.id, product.name)"
+            class="text-sm lg:text-sm text-black dark:text-white p-2 bg-red-600 rounded-[20px] transition-all duration-300 ease-in-out hover:bg-blue-600 dark:hover:bg-[#d38312] w-full lg:w-auto"
+          >
+            Удалить
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</section>
+
+<ng-template #noProducts>
+  <section class="flex justify-center items-center text-center">
+    <h1 class="text-2xl text-black dark:text-white">
+      Пока что на ReSeller нет ни одного товара 😢
+    </h1>
+  </section>
+</ng-template>

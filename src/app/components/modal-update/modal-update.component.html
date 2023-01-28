@@ -1,0 +1,118 @@
+<section
+  class="flex fixed top-0 bottom-0 left-0 right-0 justify-center items-center bg-black/80 z-[50]"
+>
+  <form
+    class="flex justify-center items-center gap-3 p-5 bg-white dark:bg-black shadow-lg rounded-xl flex-col w-[330px] lg:w-[500px]"
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+  >
+    <h1 class="text-xl text-black dark:text-white">Добавить товар</h1>
+
+    <div class="flex justify-center items-start gap-3 w-full flex-col">
+      <label
+        for="name"
+        class="text-lg text-black dark:text-white cursor-pointer transition-all duration-300 ease-in-out hover:text-gray-600 dark:hover:text-white/70 hover:translate-x-2"
+        >Название</label
+      >
+      <input
+        type="text"
+        id="name"
+        class="w-full border-2 border-transparent text-black dark:text-white bg-gray-300 dark:bg-[#28282B] rounded-xl p-3 transition-all duration-300 ease-in-out outline-none"
+        [ngClass]="{
+          'border-red-600 dark:border-red-600': !validator.name,
+          'hover:border-[#D38312] dark:hover:border-blue-600 focus:border-blue-600 dark:focus:border-[#d38312]':
+            validator.name
+        }"
+        formControlName="name"
+      />
+
+      <span *ngIf="!validator.name" class="text-xs lg:text-sm text-red-600">{{
+        validator.message.name
+      }}</span>
+
+      <label
+        for="description"
+        class="text-lg text-black dark:text-white cursor-pointer transition-all duration-300 ease-in-out hover:text-gray-600 dark:hover:text-white/70 hover:translate-x-2"
+        >Описание</label
+      >
+      <input
+        type="text"
+        id="description"
+        class="w-full border-2 border-transparent text-black dark:text-white bg-gray-300 dark:bg-[#28282B] rounded-xl p-3 transition-all duration-300 ease-in-out outline-none focus:border-blue-600 dark:focus:border-[#d38312] hover:border-[#D38312] dark:hover:border-blue-600"
+        formControlName="description"
+      />
+
+      <label
+        for="price"
+        class="text-lg text-black dark:text-white cursor-pointer transition-all duration-300 ease-in-out hover:text-gray-600 dark:hover:text-white/70 hover:translate-x-2"
+        >Цена</label
+      >
+      <input
+        type="text"
+        id="price"
+        class="w-full border-2 border-transparent text-black dark:text-white bg-gray-300 dark:bg-[#28282B] rounded-xl p-3 transition-all duration-300 ease-in-out outline-none"
+        [ngClass]="{
+          'border-red-600 dark:border-red-600': !validator.price,
+          'focus:border-blue-600 dark:focus:border-[#d38312] hover:border-[#D38312] dark:hover:border-blue-600':
+            validator.price
+        }"
+        formControlName="price"
+      />
+
+      <span *ngIf="!validator.price" class="text-xs lg:text-sm text-red-600">{{
+        validator.message.price
+      }}</span>
+
+      <label
+        for="amount"
+        class="text-lg text-black dark:text-white cursor-pointer transition-all duration-300 ease-in-out hover:text-gray-600 dark:hover:text-white/70 hover:translate-x-2"
+        >Количество</label
+      >
+      <input
+        type="text"
+        id="amount"
+        class="w-full border-2 border-transparent text-black dark:text-white bg-gray-300 dark:bg-[#28282B] rounded-xl p-3 transition-all duration-300 ease-in-out outline-none"
+        [ngClass]="{
+          'border-red-600 dark:border-red-600': !validator.amount,
+          'focus:border-blue-600 dark:focus:border-[#d38312] hover:border-[#D38312] dark:hover:border-blue-600':
+            validator.amount
+        }"
+        formControlName="amount"
+      />
+
+      <span *ngIf="!validator.amount" class="text-xs lg:text-sm text-red-600">{{
+        validator.message.amount
+      }}</span>
+    </div>
+
+    <div
+      *ngIf="modalsService.message"
+      class="flex justify-center items-center text-center"
+    >
+      <span
+        class="text-lg select-none"
+        [ngClass]="{
+          'text-red-600': modalsService.message.startsWith('error:'),
+          'text-green-500': !modalsService.message.startsWith('error:')
+        }"
+        >{{ modalsService.message.replace("error:", "") }}</span
+      >
+    </div>
+
+    <div class="flex justify-between items-center gap-3 w-full">
+      <button
+        class="p-3 w-full rounded-xl bg-blue-400 dark:bg-[#ba730f] transition-all duration-300 ease-in-out hover:bg-blue-600 dark:hover:bg-[#d38312]"
+        type="submit"
+      >
+        Создать
+      </button>
+
+      <button
+        class="p-3 w-full rounded-xl bg-blue-400 dark:bg-[#ba730f] transition-all duration-300 ease-in-out hover:bg-blue-600 dark:hover:bg-[#d38312]"
+        (click)="close()"
+      >
+        Отмена
+      </button>
+    </div>
+  </form>
+</section>

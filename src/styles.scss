@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap");
+
+*,
+*::before,
+*::after {
+  font-family: "Montserrat", sans-serif;
+}
+
+body::-webkit-scrollbar {
+  @apply w-[4px];
+}
+
+body::-webkit-scrollbar-track {
+  @apply bg-[#f5f5f5] dark:bg-[#28282B];
+}
+
+body::-webkit-scrollbar-thumb {
+  @apply bg-blue-600 dark:bg-[#d38312] rounded-[20px];
+}
+
+.scroll::-webkit-scrollbar {
+  @apply w-[4px];
+}
+
+.scroll::-webkit-scrollbar-track {
+  @apply bg-white/80 dark:bg-black/60;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  @apply bg-blue-600 dark:bg-[#d38312] rounded-[20px];
+}
+
+#first {
+  stroke-dasharray: 549;
+  stroke-dashoffset: 549;
+
+  animation: logo 1.5s infinite;
+}
+
+#second {
+  stroke-dasharray: 515;
+  stroke-dashoffset: 515;
+
+  animation: logo 1.5s infinite;
+}
+
+#third {
+  stroke-dasharray: 493;
+  stroke-dashoffset: 493;
+
+  animation: logo 1.5s infinite;
+}
+
+#fourth {
+  stroke-dasharray: 515;
+  stroke-dashoffset: 515;
+
+  animation: logo 1.5s infinite;
+}
+
+#fifth {
+  stroke-dasharray: 239;
+  stroke-dashoffset: 239;
+
+  animation: logo 1.5s infinite;
+}
+
+#sixth {
+  stroke-dasharray: 239;
+  stroke-dashoffset: 239;
+
+  animation: logo 1.5s infinite;
+}
+
+#seventh {
+  stroke-dasharray: 515;
+  stroke-dashoffset: 515;
+
+  animation: logo 1.5s infinite;
+}
+
+#eight {
+  stroke-dasharray: 246;
+  stroke-dashoffset: 246;
+
+  animation: logo 1.5s infinite;
+}
+
+@keyframes logo {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

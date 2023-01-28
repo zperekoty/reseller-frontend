@@ -1,0 +1,16 @@
+<section
+  class="flex flex-col justify-center items-center bg-white dark:bg-black w-[330px] lg:w-[500px] rounded-xl p-5 shadow-lg dark:shadow-none gap-5"
+>
+  <h1 class="text-2xl text-black dark:text-white">Быстрая авторизация</h1>
+
+  <h2 class="text-lg text-black dark:text-white">🪪 ID: {{ id }}</h2>
+
+  <span class="text-red-600">{{ error }}</span>
+
+  <button
+    (click)="toMain()"
+    class="p-3 w-full rounded-xl bg-blue-400 dark:bg-[#ba730f] transition-all duration-300 ease-in-out hover:bg-blue-600 dark:hover:bg-[#d38312]"
+  >
+    На главную
+  </button>
+</section>

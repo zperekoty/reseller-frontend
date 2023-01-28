@@ -1,0 +1,78 @@
+<form
+  class="flex justify-center items-center gap-3 p-5 bg-white dark:bg-black shadow-lg rounded-xl flex-col w-[330px] lg:w-[500px]"
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+>
+  <h1 class="text-xl text-black dark:text-white">Авторизация</h1>
+
+  <div class="flex justify-center items-start gap-3 w-full flex-col">
+    <label
+      for="login"
+      class="text-lg text-black dark:text-white cursor-pointer transition-all duration-300 ease-in-out hover:text-gray-600 dark:hover:text-white/70 hover:translate-x-2"
+      >Логин</label
+    >
+    <input
+      type="login"
+      id="login"
+      class="w-full border-2 border-transparent text-black dark:text-white bg-gray-300 dark:bg-[#28282B] rounded-xl p-3 transition-all duration-300 ease-in-out outline-none"
+      [ngClass]="{
+        'border-red-600 dark:border-red-600': !validator.login,
+        'hover:border-[#D38312] dark:hover:border-blue-600 focus:border-blue-600 dark:focus:border-[#d38312]':
+          validator.login
+      }"
+      formControlName="login"
+    />
+
+    <span *ngIf="!validator.login" class="text-xs lg:text-sm text-red-600">{{
+      validator.message.login
+    }}</span>
+
+    <label
+      for="password"
+      class="text-lg text-black dark:text-white cursor-pointer transition-all duration-300 ease-in-out hover:text-gray-600 dark:hover:text-white/70 hover:translate-x-2"
+      >Пароль</label
+    >
+    <input
+      type="password"
+      id="password"
+      class="w-full border-2 border-transparent text-black dark:text-white bg-gray-300 dark:bg-[#28282B] rounded-xl p-3 transition-all duration-300 ease-in-out outline-none"
+      [ngClass]="{
+        'border-red-600 dark:border-red-600': !validator.password,
+        'focus:border-blue-600 dark:focus:border-[#d38312] hover:border-[#D38312] dark:hover:border-blue-600':
+          validator.password
+      }"
+      formControlName="password"
+    />
+
+    <span *ngIf="!validator.password" class="text-xs lg:text-sm text-red-600">{{
+      validator.message.password
+    }}</span>
+  </div>
+
+  <div class="flex justify-center items-center w-full">
+    <span class="text-black dark:text-white"
+      >Нет аккаунта?
+      <a
+        routerLink="/registration"
+        class="font-semibold text-blue-400 dark:text-[#ba730f] transition-all duration-300 ease-in-out hover:text-blue-600 dark:hover:text-[#d38312]"
+        >Создать аккаунт</a
+      ></span
+    >
+  </div>
+
+  <div
+    *ngIf="authService.error"
+    class="flex justify-center items-center text-center"
+  >
+    <span class="text-lg text-red-600 select-none">{{
+      authService.error
+    }}</span>
+  </div>
+
+  <button
+    class="p-3 w-full rounded-xl bg-blue-400 dark:bg-[#ba730f] transition-all duration-300 ease-in-out hover:bg-blue-600 dark:hover:bg-[#d38312]"
+    type="submit"
+  >
+    Войти
+  </button>
+</form>

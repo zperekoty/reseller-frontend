@@ -1,0 +1,269 @@
+<nav
+  class="sticky top-0 left-0 right-0 flex justify-between items-center p-3 lg:p-5 transition-all duration-300 ease-in-out h-[55px] lg:h-[90px] z-30"
+  [ngClass]="{
+    'bg-white/50 dark:bg-black/60 backdrop-blur': scrolled,
+    'backdrop-blur-0 bg-transparent': !scrolled
+  }"
+>
+  <a
+    routerLink="/"
+    class="flex justify-center items-center transition-all duration-300 ease-in-out hover:scale-110 hover:rotate-3"
+  >
+    <span class="text-xl lg:text-4xl text-blue-600 dark:text-[#d38312]"
+      >Re<span
+        class="bg-clip-text text-transparent bg-gradient-to-r"
+        [ngClass]="{
+          'from-[#D38312] to-[#A83279] dark:from-[#333] dark:to-[#dd1818]':
+            scrolled,
+          'bg-gray-600 dark:bg-gray-600': !scrolled
+        }"
+        >Seller</span
+      ></span
+    >
+  </a>
+
+  <div class="hidden lg:flex justify-center items-center gap-3">
+    <div class="flex justify-center items-center gap-3">
+      <div
+        *ngIf="authService.isAuth && authService.isVerified"
+        class="flex relative group rounded-[50%] cursor-pointer justify-center items-center p-3 transition-all duration-300 ease-in-out hover:bg-blue-600 dark:hover:bg-[#d38312]"
+        [ngClass]="{
+          'bg-blue-600 dark:bg-[#d38312] pointer-events-none': rla.isActive
+        }"
+        (click)="menuService.handleButton(); basket()"
+        routerLink="/cart"
+        routerLinkActive
+        #rla="routerLinkActive"
+      >
+        <span
+          *ngIf="cartService.cart.length > 0"
+          class="absolute top-[5.5px] right-[5.5px] w-[22px] h-[22px] rounded-[50%] bg-red-600 flex justify-center items-center text-white text-center"
+          >{{ cartService.cart.length }}</span
+        >
+
+        <bakset
+          classes="w-[25px] h-[25px] transition-all duration-300 ease-in-out {{
+            rla.isActive
+              ? 'fill-white dark:fill-black'
+              : scrolled
+              ? 'fill-gray-400 dark:fill-gray-400'
+              : 'fill-black dark:fill-gray-600'
+          }} group-hover:fill-white dark:group-hover:fill-black"
+        ></bakset>
+      </div>
+
+      <div
+        class="flex group rounded-[50%] cursor-pointer justify-center items-center p-3 transition-all duration-300 ease-in-out hover:bg-blue-600 dark:hover:bg-[#d38312]"
+        (click)="darkModeService.changeTheme()"
+      >
+        <moon
+          *ngIf="!darkModeService.darkMode"
+          classes="w-[25px] h-[25px] transition-all duration-300 ease-in-out {{
+            scrolled
+              ? 'fill-gray-400 dark:fill-gray-400'
+              : 'fill-black dark:fill-gray-600'
+          }} group-hover:fill-white dark:group-hover:fill-black"
+        ></moon>
+
+        <sun
+          *ngIf="darkModeService.darkMode"
+          classes="w-[25px] h-[25px] transition-all duration-300 ease-in-out {{
+            scrolled
+              ? 'fill-gray-400 dark:fill-gray-400'
+              : 'fill-black dark:fill-gray-600'
+          }} group-hover:fill-white dark:group-hover:fill-black"
+        ></sun>
+      </div>
+    </div>
+
+    <ng-container
+      *ngIf="
+        !authService.isAuth || (authService.isAuth && authService.isVerified)
+      "
+    >
+      <a
+        *ngFor="let link of authService.isAuth ? linksAuthed : linksNotAuthed"
+        [routerLink]="link.path"
+        routerLinkActive
+        #rla="routerLinkActive"
+        class="relative {{
+          rla.isActive
+            ? 'text-blue-600 dark:text-[#d38312] pointer-events-none'
+            : scrolled
+            ? 'text-gray-400 dark:text-gray-400'
+            : 'text-black dark:text-gray-600'
+        }} transition-all duration-300 ease-in-out {{
+          scrolled
+            ? 'hover:text-black dark:hover:text-white'
+            : 'hover:text-[#D38312] dark:hover:text-blue-600'
+        }} uppercase text-sm after:absolute after:rounded-t-[20px] after:w-full after:h-[3px] after:bg-blue-600 dark:after:bg-[#d38312] after:bottom-[-7px] after:left-0 after:scale-0 after:transition-all after:duration-300 after:ease-in-out after:opacity-0 hover:after:opacity-100 hover:after:scale-100 foucs:after:opacity-100 focus:after:scale-100"
+        >{{ link.text }}</a
+      >
+    </ng-container>
+
+    <div
+      *ngIf="authService.isAuth && authService.isVerified"
+      class="flex group rounded-[50%] cursor-pointer justify-center items-center p-3 transition-all duration-300 ease-in-out hover:bg-blue-600 dark:hover:bg-[#d38312]"
+      [ngClass]="{
+        'bg-blue-600 dark:bg-[#d38312] pointer-events-none': rla.isActive
+      }"
+      (click)="profile()"
+      routerLink="/profile"
+      routerLinkActive
+      #rla="routerLinkActive"
+    >
+      <svg-profile
+        classes="w-[25px] h-[25px] transition-all duration-300 ease-in-out {{
+          rla.isActive
+            ? 'fill-white dark:fill-black'
+            : scrolled
+            ? 'fill-gray-400 dark:fill-gray-400'
+            : 'fill-black dark:fill-gray-600'
+        }} group-hover:fill-white dark:group-hover:fill-black"
+      ></svg-profile>
+    </div>
+
+    <div
+      (click)="logout()"
+      *ngIf="authService.isAuth"
+      class="p-3 cursor-pointer {{
+        scrolled
+          ? 'text-gray-400 dark:text-gray-400'
+          : 'text-black dark:text-gray-600'
+      }} transition-all duration-300 ease-in-out hover:text-white dark:hover:text-black uppercase text-sm bg-none hover:bg-blue-600 dark:hover:bg-[#d38312] rounded-[20px]"
+    >
+      выйти
+    </div>
+  </div>
+
+  <div
+    class="flex lg:hidden group rounded-[50%] cursor-pointer justify-center items-center p-3 z-50"
+    (click)="menuService.handleButton()"
+  >
+    <menu
+      *ngIf="!menuService.opened"
+      classes="w-[25px] h-[25px] transition-all duration-300 ease-in-out {{
+        menuService.opened
+          ? 'fill-black dark:fill-white'
+          : scrolled
+          ? 'fill-gray-400 dark:fill-white'
+          : 'fill-black dark:fill-white'
+      }}"
+    ></menu>
+
+    <close
+      *ngIf="menuService.opened"
+      classes="w-[25px] h-[25px] transition-all duration-300 ease-in-out {{
+        menuService.opened
+          ? 'fill-black dark:fill-white'
+          : scrolled
+          ? 'fill-gray-400 dark:fill-white'
+          : 'fill-black dark:fill-white'
+      }}"
+    ></close>
+  </div>
+
+  <div
+    *ngIf="menuService.opened"
+    class="flex lg:hidden fixed top-0 bottom-0 left-0 right-0 w-screen h-screen z-40"
+  >
+    <div (click)="menuService.handleButton()" class="w-[35%] bg-black/70"></div>
+
+    <div class="flex p-3 gap-3 flex-col w-[65%] bg-white dark:bg-black">
+      <div class="flex lg:hidden justify-between items-center mt-7">
+        <div
+          class="flex lg:hidden rounded-[50%] cursor-pointer justify-center items-center p-3"
+          (click)="darkModeService.changeTheme()"
+        >
+          <sun
+            *ngIf="darkModeService.darkMode"
+            classes="w-[25px] h-[25px] fill-black dark:fill-white"
+          ></sun>
+
+          <moon
+            *ngIf="!darkModeService.darkMode"
+            classes="w-[25px] h-[25px] fill-black dark:fill-white"
+          ></moon>
+        </div>
+
+        <div
+          *ngIf="authService.isAuth && authService.isVerified"
+          class="flex relative lg:hidden rounded-[50%] cursor-pointer justify-center items-center p-3"
+          [ngClass]="{
+            'bg-blue-600 dark:bg-[#d38312] pointer-events-none': rla.isActive
+          }"
+          (click)="menuService.handleButton(); profile()"
+          routerLink="/profile"
+          routerLinkActive
+          #rla="routerLinkActive"
+        >
+          <svg-profile
+            classes="w-[25px] h-[25px]"
+            [ngClass]="{
+              'fill-white dark:fill-black': rla.isActive,
+              'fill-black dark:fill-white': !rla.isActive
+            }"
+          ></svg-profile>
+        </div>
+
+        <div
+          class="flex relative lg:hidden rounded-[50%] cursor-pointer justify-center items-center p-3"
+          [ngClass]="{
+            'bg-blue-600 dark:bg-[#d38312] pointer-events-none': rla.isActive
+          }"
+          (click)="menuService.handleButton(); basket()"
+          routerLink="/cart"
+          routerLinkActive
+          #rla="routerLinkActive"
+        >
+          <span
+            *ngIf="cartService.cart.length > 0"
+            class="absolute top-[5.5px] right-[5.5px] w-[22px] h-[22px] rounded-[50%] bg-red-600 flex justify-center items-center text-white"
+            >{{ cartService.cart.length }}</span
+          >
+
+          <bakset
+            classes="w-[25px] h-[25px]"
+            [ngClass]="{
+              'fill-white dark:fill-black': rla.isActive,
+              'fill-black dark:fill-white': !rla.isActive
+            }"
+          ></bakset>
+        </div>
+      </div>
+
+      <div class="flex lg:hidden flex-col gap-3 p-3">
+        <ng-container
+          *ngIf="
+            !authService.isAuth ||
+            (authService.isAuth && authService.isVerified)
+          "
+        >
+          <a
+            *ngFor="
+              let link of authService.isAuth ? linksAuthed : linksNotAuthed
+            "
+            (click)="menuService.handleButton()"
+            [routerLink]="link.path"
+            routerLinkActive
+            #rla="routerLinkActive"
+            class="relative {{
+              rla.isActive
+                ? 'text-blue-600 dark:text-[#d38312] pointer-events-none'
+                : 'text-black dark:text-white'
+            }} uppercase text-sm"
+            >{{ link.text }}</a
+          >
+        </ng-container>
+      </div>
+
+      <div
+        (click)="menuService.handleButton(); logout()"
+        *ngIf="authService.isAuth"
+        class="flex lg:hidden justify-center items-center w-[50%] p-3 uppercase text-white dark:text-black bg-blue-600 dark:bg-[#d38312] rounded-[20px]"
+      >
+        выйти
+      </div>
+    </div>
+  </div>
+</nav>
